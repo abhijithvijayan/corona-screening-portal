@@ -31,5 +31,14 @@ class Interaction(db.Model):
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, server_default=func.now())
 
+    def to_dict(self):
+        json_interaction = {
+            'id': self.id,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at
+        }
+
+        return json_interaction
+
     def __repr__(self):
         return '<Interaction {}>'.format(self.id)

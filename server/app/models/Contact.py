@@ -21,10 +21,21 @@ class Contact(db.Model):
     district = db.Column(db.String(25), index=True, nullable=False)
     town = db.Column(db.String(40), nullable=False)
     # Relationship -> Interaction
-    interactions = relationship('Interaction', backref='corona__patient')
+    interactions = relationship(
+        'Interaction', backref='corona__patient__contact')
     # Meta data
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, server_default=func.now())
+
+    def to_json(self):
+        json_contact = {
+            'name': self.name,
+            'id': self.id,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at
+        }
+
+        return json_contact
 
     def __repr__(self):
         return '<Contact {}>'.format(self.name)

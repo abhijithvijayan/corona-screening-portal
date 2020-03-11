@@ -27,6 +27,16 @@ class Patient(db.Model):
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, server_default=func.now())
 
+    def to_json(self):
+        json_patient = {
+            'name': self.name,
+            'id': self.id,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at
+        }
+
+        return json_patient
+
     # method tells Python how to print objects of this class
     def __repr__(self):
         return '<Patient {}>'.format(self.name)
