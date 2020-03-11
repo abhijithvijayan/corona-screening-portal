@@ -3,6 +3,8 @@ import { withFormik, Field, Form } from 'formik';
 
 import { TextField } from '../../Input';
 import { isValidAge } from '../../../util/validators';
+import * as endpoints from '../../../api/constants';
+import api from '../../../api';
 
 const InnerForm = props => {
     const { values, dirty, handleChange, handleBlur, handleSubmit, handleReset, isSubmitting } = props;
@@ -10,11 +12,21 @@ const InnerForm = props => {
         <Form onSubmit={handleSubmit}>
             <div>
                 <h4>Name</h4>
-                <Field name="name" type="text" component={TextField} />
+                <Field name="name" type="text" component={TextField} onChange={handleChange} onBlur={handleBlur} />
             </div>
             <div>
                 <h4>Age</h4>
                 <Field name="age" type="number" component={TextField} onChange={handleChange} onBlur={handleBlur} />
+            </div>
+
+            <div>
+                <h4>District</h4>
+                <Field name="district" type="text" component={TextField} onChange={handleChange} onBlur={handleBlur} />
+            </div>
+
+            <div>
+                <h4>Town</h4>
+                <Field name="town" type="text" component={TextField} onChange={handleChange} onBlur={handleBlur} />
             </div>
 
             <button type="button" className="outline" onClick={handleReset} disabled={!dirty || isSubmitting}>
@@ -33,6 +45,8 @@ const PatientForm = withFormik({
         return {
             name: '',
             age: '',
+            district: '',
+            town: '',
         };
     },
 
@@ -48,19 +62,43 @@ const PatientForm = withFormik({
                 errors.age = 'Enter a valid age';
             }
         }
+        if (!values.district) {
+            errors.district = 'Required';
+        }
+        if (!values.town) {
+            errors.town = 'Required';
+        }
 
         return errors;
     },
 
-    handleSubmit: (values, { setSubmitting }) => {
-        const payload = {
-            ...values,
+    handleSubmit: async ({ name, age, district, town }, { setSubmitting }) => {
+        const apiBody = {
+            name,
+            age,
+            district,
+            town,
         };
 
-        setTimeout(() => {
-            alert(JSON.stringify(payload, null, 2));
-            setSubmitting(false);
-        }, 1000);
+        try {
+            const { data } = await api({
+                method: 'POST',
+                url: endpoints.SAVE_PATIENT_ENDPOINT,
+                data: apiBody,
+            });
+
+            alert(data);
+        } catch (err) {
+            if (err.response) {
+                if (err.response.status === 404) {
+                    //
+                }
+            }
+
+            // error
+        }
+
+        setSubmitting(false);
     },
 
     displayName: 'PatientForm',
