@@ -2,6 +2,7 @@
   "name": "hello-corona-web",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:4000",
   "dependencies": {
     "axios": "^0.19.2",
     "formik": "^2.1.4",
