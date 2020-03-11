@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import Loader from '../Loader';
@@ -12,22 +12,16 @@ const BodyWrapper = styled.main`
     }
 `;
 
-class Wrapper extends Component {
-    componentDidMount() {
-        // call action to hide loader
-    }
+const Wrapper = ({ children }) => {
+    // Get from props
+    const isPageLoading = false;
+    const renderContent = isPageLoading ? <Loader /> : children;
 
-    render() {
-        const { children } = this.props;
-        // Get from props
-        const isPageLoading = false;
-        const renderContent = isPageLoading ? <Loader /> : children;
-        return (
-            <BodyWrapper>
-                <div className="content__wrapper">{renderContent}</div>
-            </BodyWrapper>
-        );
-    }
-}
+    return (
+        <BodyWrapper>
+            <div className="content__wrapper">{renderContent}</div>
+        </BodyWrapper>
+    );
+};
 
 export default Wrapper;
