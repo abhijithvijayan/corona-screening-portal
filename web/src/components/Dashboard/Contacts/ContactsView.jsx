@@ -29,8 +29,6 @@ const ContactsView = () => {
 
     useEffect(() => {
         async function getPatients() {
-            console.log('rendered');
-
             try {
                 const {
                     data: { data },

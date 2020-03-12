@@ -5,47 +5,12 @@ import MapMarker from './MapMarkerWithWindow';
 
 const mapsApiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || '';
 
-const personMarkers = [
-    {
-        id: 'Pta/cov/1',
-        level: 1,
-        latlng: [9.2230771, 76.7380211],
-        name: 'Joey',
-        age: 21,
-        gender: 'M',
-        address: '221B Baker Street',
-        contact: 9999999999,
-    },
-    {
-        id: 'Pta/cov/2',
-        level: 2,
-        latlng: [9.2215311, 76.7499079],
-        name: 'Chandler',
-        age: 22,
-        gender: 'M',
-        address: '222B Baker Street',
-        contact: 9999999999,
-    },
-    {
-        id: 'Pta/cov/3',
-        level: 3,
-        latlng: [9.2095432, 76.75673],
-        name: 'Ross',
-        age: 23,
-        gender: 'M',
-        address: '223B Baker Street',
-        contact: 9999999999,
-    },
-];
-
 const RenderGoogleMapsMarkers = markers => {
     const [activeMarkerId, setActiveMarkerId] = useState('');
 
     return markers.map(({ id, latlng, name, age, gender, address, contact, level }) => {
         // level 1 -> confirmed, 2 -> primary, 3 -> secondary
         const colors = ['#8b0000', '#00008B', 'yellow'];
-
-        console.log(activeMarkerId);
 
         const onMarkerClick = targetId => {
             return setActiveMarkerId(targetId);
@@ -83,10 +48,21 @@ const getMapOptions = maps => {
     };
 };
 
-const MapView = () => {
-    useEffect(() => {
-        // ToDo: fetch all persons from api
-    }, []);
+const MapView = ({ personsList }) => {
+    const markers = personsList.map(({ id, name, age, district, town }, index) => {
+        return {
+            id,
+            name,
+            level: 3, // ToDo:
+            latlng: [9.2095432 + index * 0.1, 76.75673], // ToDo:
+            age,
+            district,
+            town,
+            gender: 'M',
+            address: '223B Baker Street',
+            contact: 9999999999,
+        };
+    });
 
     return (
         <GoogleMapReact
@@ -99,7 +75,7 @@ const MapView = () => {
             layerTypes={['TrafficLayer', 'TransitLayer']}
             options={getMapOptions()}
         >
-            {RenderGoogleMapsMarkers(personMarkers)}
+            {RenderGoogleMapsMarkers(markers)}
         </GoogleMapReact>
     );
 };
