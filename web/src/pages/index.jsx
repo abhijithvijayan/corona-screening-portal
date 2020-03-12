@@ -6,7 +6,7 @@ import Layout from '../components/Layout';
 import Sidebar from '../components/Dashboard/Sidebar';
 import PatientsView from '../components/Dashboard/Patients/PatientsView';
 import ContactsView from '../components/Dashboard/Contacts/ContactsView';
-import MapView from '../components/Map';
+import Map from '../components/Map';
 
 const routes = [
     {
@@ -27,7 +27,7 @@ const routes = [
     },
     {
         path: '/view/map',
-        component: MapView,
+        component: Map,
     },
 ];
 
