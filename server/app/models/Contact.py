@@ -37,5 +37,18 @@ class Contact(db.Model):
 
         return json_contact
 
+    def complete_json(self):
+        json_contact = {
+            'id': self.id,
+            'name': self.name,
+            'age': self.age,
+            'district': self.district,
+            'town': self.town,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at
+        }
+
+        return json_contact
+
     def __repr__(self):
         return '<Contact {}>'.format(self.name)

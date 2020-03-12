@@ -58,6 +58,18 @@ def getPerson():
     data = request.get_json()
     tableModel = {"patient": Patient, "contact": Contact}
     key = data["category"]
+    if key == "all":
+        dict_obj = {}
+        for dictkey in tableModel:
+            print(dictkey)
+            model = tableModel[dictkey]
+            datalist = model.query.all()
+            dataList = [data.complete_json() for data in datalist]
+            dict_obj[dictkey] = dataList
+
+        return jsonify({"data": {
+            'list': dict_obj
+        }}), 200
     model = tableModel[key]
     datalist = model.query.all()
     dataList = [data.to_json() for data in datalist]

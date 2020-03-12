@@ -38,6 +38,19 @@ class Patient(db.Model):
 
         return json_patient
 
+    def complete_json(self):
+        json_patient = {
+            'id': self.id,
+            'name': self.name,
+            'age': self.age,
+            'district': self.district,
+            'town': self.town,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at
+        }
+
+        return json_patient
+
     # method tells Python how to print objects of this class
     def __repr__(self):
         return '<Patient {}>'.format(self.name)
