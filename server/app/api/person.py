@@ -62,4 +62,6 @@ def getPerson():
     datalist = model.query.all()
     dataList = [data.to_json() for data in datalist]
 
-    return jsonify({"data": dataList}), 200
+    return jsonify({"data": {
+        'list': dataList
+    }}), 200

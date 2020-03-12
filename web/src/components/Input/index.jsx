@@ -1,8 +1,9 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import styled from 'styled-components';
+import Select, { Option, ReactSelectProps } from 'react-select';
 
-const StyledSelect = styled.select`
+const StyledSelect = styled(Select)`
     height: 35px;
     padding: 0px 10px;
     width: 100%;
@@ -15,20 +16,25 @@ const StyledSelect = styled.select`
     }
 `;
 
-export const SelectField = ({ options, label, field, form: { touched, errors }, ...props }) => {
+export const SelectField = ({ options, label, field, form: { touched, errors, setFieldValue }, ...props }) => {
     return (
         <>
             <label htmlFor={field.name}>{label}</label>
             <div style={{ padding: '0px' }}>
-                <StyledSelect {...field} {...props}>
-                    {options.map(({ option, value, disabled = false }, index) => {
-                        return (
-                            <option value={value} disabled={disabled} key={index}>
-                                {option}
-                            </option>
-                        );
-                    })}
-                </StyledSelect>
+                <StyledSelect
+                    id="color"
+                    options={options}
+                    value={
+                        options
+                            ? options.find(option => {
+                                  return option.value === field.value;
+                              })
+                            : ''
+                    }
+                    onChange={(option: Option) => {
+                        return setFieldValue(field.name, option.value);
+                    }}
+                />
             </div>
 
             {touched[field.name] && errors[field.name] && <div className="error">{errors[field.name]}</div>}
