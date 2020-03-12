@@ -28,8 +28,9 @@ class Interaction(db.Model):
     # low -> 0, high -> 1
     severity = db.Column(db.Integer, nullable=False)
     # Meta data
-    created_at = db.Column(db.DateTime, server_default=func.now())
-    updated_at = db.Column(db.DateTime, server_default=func.now())
+    created_at = db.Column(db.DateTime, index=True, server_default=func.now())
+    updated_at = db.Column(db.DateTime, index=True,
+                           server_default=func.now())  # ToDo: fix auto updation
 
     def to_dict(self):
         json_interaction = {

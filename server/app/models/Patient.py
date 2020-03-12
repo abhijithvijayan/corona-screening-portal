@@ -22,10 +22,11 @@ class Patient(db.Model):
     district = db.Column(db.String(25), index=True, nullable=False)
     town = db.Column(db.String(40), nullable=False)
     # Relationship -> Interaction
-    interactions = relationship('Interaction', backref='corona__patient')
+    interactions = relationship('Interaction', backref='patient__interaction')
     # Meta data
-    created_at = db.Column(db.DateTime, server_default=func.now())
-    updated_at = db.Column(db.DateTime, server_default=func.now())
+    created_at = db.Column(db.DateTime, index=True, server_default=func.now())
+    updated_at = db.Column(db.DateTime, index=True,
+                           server_default=func.now())  # ToDo: fix auto updation
 
     def to_json(self):
         json_patient = {

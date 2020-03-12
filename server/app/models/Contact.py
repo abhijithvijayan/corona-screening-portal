@@ -22,17 +22,17 @@ class Contact(db.Model):
     town = db.Column(db.String(40), nullable=False)
     # Relationship -> Interaction
     interactions = relationship(
-        'Interaction', backref='corona__patient__contact')
+        'Interaction', backref='contact__interaction')
     # Meta data
-    created_at = db.Column(db.DateTime, server_default=func.now())
-    updated_at = db.Column(db.DateTime, server_default=func.now())
+    created_at = db.Column(db.DateTime, index=True, server_default=func.now())
+    updated_at = db.Column(db.DateTime, index=True,
+                           server_default=func.now())  # ToDo: fix auto updation
 
     def to_json(self):
         json_contact = {
             'name': self.name,
             'id': self.id,
-            'created_at': self.created_at,
-            'updated_at': self.updated_at
+            'created_at': self.created_at
         }
 
         return json_contact
