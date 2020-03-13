@@ -63,6 +63,26 @@ export const TextField = ({ label, field, form: { touched, errors }, ...props })
     );
 };
 
+const StyledTextAreaBox = styled.textarea`
+    height: 40px;
+    width: 100%;
+    margin: 0px;
+    border-radius: 5px;
+    padding: 0 !important;
+    background-color: #ebebeb;
+`;
+
+export const TextAreaField = ({ label, field, form: { touched, errors }, ...props }) => {
+    return (
+        <>
+            <label htmlFor={field.name}>{label}</label>
+            <StyledTextAreaBox {...field} {...props} />
+
+            {touched[field.name] && errors[field.name] && <div className="error">{errors[field.name]}</div>}
+        </>
+    );
+};
+
 export const CheckBox = ({ label, field, form, ...props }) => {
     return (
         <>

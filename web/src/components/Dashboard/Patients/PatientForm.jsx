@@ -2,7 +2,7 @@ import React from 'react';
 import { withFormik, Field, Form } from 'formik';
 
 import api from '../../../api';
-import { TextField } from '../../Input';
+import { TextField, SelectField, TextAreaField } from '../../Input';
 import * as endpoints from '../../../api/constants';
 import { isValidAge } from '../../../util/validators';
 import LocationAutoComplete from '../LocationAutoComplete';
@@ -14,21 +14,70 @@ const InnerForm = props => {
         <Form onSubmit={handleSubmit}>
             <div>
                 <h4>Name</h4>
-                <Field name="name" type="text" component={TextField} onChange={handleChange} onBlur={handleBlur} />
-            </div>
-            <div>
-                <h4>Age</h4>
-                <Field name="age" type="number" component={TextField} onChange={handleChange} onBlur={handleBlur} />
+                <Field
+                    name="name"
+                    type="text"
+                    component={TextField}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    autoComplete="off"
+                />
             </div>
 
             <div>
-                <h4>District</h4>
-                <Field name="district" type="text" component={TextField} onChange={handleChange} onBlur={handleBlur} />
+                <h4>Gender</h4>
+                <Field
+                    name="gender"
+                    options={[
+                        { label: 'Male', value: 'male' },
+                        { label: 'Female', value: 'female' },
+                        { label: 'Other', value: 'other' },
+                    ]}
+                    component={SelectField}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                />
+            </div>
+
+            <div>
+                <h4>Age</h4>
+                <Field
+                    name="age"
+                    type="number"
+                    component={TextField}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    autoComplete="off"
+                />
+            </div>
+
+            <div>
+                <h4>Address</h4>
+                {/* change to textbox */}
+                <Field
+                    name="address"
+                    type="text"
+                    component={TextAreaField}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                />
             </div>
 
             <div>
                 <h4>Town</h4>
                 <Field name="town" type="text" component={TextField} onChange={handleChange} onBlur={handleBlur} />
+            </div>
+
+            <div>
+                <h4>Phone</h4>
+                <Field
+                    name="phone"
+                    type="number"
+                    autoComplete="off"
+                    component={TextField}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                />
             </div>
 
             <div>
@@ -51,9 +100,11 @@ const PatientForm = withFormik({
     mapPropsToValues: props => {
         return {
             name: '',
+            gender: '',
             age: '',
-            district: '',
+            address: '',
             town: '',
+            phone: '',
             location: {
                 value: '',
                 coordinates: null,
@@ -68,31 +119,40 @@ const PatientForm = withFormik({
         if (!values.name) {
             errors.name = 'Required';
         }
+        if (!values.gender) {
+            errors.gender = 'Required';
+        }
         if (values.age) {
             if (!isValidAge(values.age)) {
                 errors.age = 'Enter a valid age';
             }
         }
-        if (!values.district) {
-            errors.district = 'Required';
+        if (!values.address) {
+            errors.address = 'Required';
         }
         if (!values.town) {
             errors.town = 'Required';
         }
+        if (!values.phone) {
+            errors.phone = 'Required';
+        }
         if (!values.location.value) {
             errors.location = 'Location Required';
         }
+
         // ToDo: add validator for `coordinates`
 
         return errors;
     },
 
-    handleSubmit: async ({ name, age, district, town, location }, { setSubmitting }) => {
+    handleSubmit: async ({ name, gender, age, address, town, phone, location }, { setSubmitting }) => {
         const apiBody = {
             name,
+            gender,
             age,
-            district,
+            address,
             town,
+            phone,
             location,
         };
 

@@ -26,9 +26,17 @@ const ContactsView = () => {
     const [defaultValues, setDefaultValues] = useState({
         name: '',
         age: '',
-        district: '',
+        gender: '',
+        address: '',
         town: '',
+        phone: '',
+        location: {
+            value: '',
+            coordinates: null,
+        },
         patient: '',
+        category: '',
+        severity: '',
     });
 
     useEffect(() => {

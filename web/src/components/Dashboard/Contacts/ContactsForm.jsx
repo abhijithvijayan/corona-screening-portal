@@ -2,7 +2,7 @@ import React from 'react';
 import { withFormik, Field, Form } from 'formik';
 
 import api from '../../../api';
-import { TextField, SelectField } from '../../Input';
+import { TextField, SelectField, TextAreaField } from '../../Input';
 import { isValidAge } from '../../../util/validators';
 import * as endpoints from '../../../api/constants';
 import LocationAutoComplete from '../LocationAutoComplete';
@@ -25,6 +25,22 @@ const InnerForm = props => {
                     autoComplete="off"
                 />
             </div>
+
+            <div>
+                <h4>Gender</h4>
+                <Field
+                    name="gender"
+                    options={[
+                        { label: 'Male', value: 'male' },
+                        { label: 'Female', value: 'female' },
+                        { label: 'Other', value: 'other' },
+                    ]}
+                    component={SelectField}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                />
+            </div>
+
             <div>
                 <h4>Age</h4>
                 <Field
@@ -38,13 +54,32 @@ const InnerForm = props => {
             </div>
 
             <div>
-                <h4>District</h4>
-                <Field name="district" type="text" component={TextField} onChange={handleChange} onBlur={handleBlur} />
+                <h4>Address</h4>
+                {/* change to textbox */}
+                <Field
+                    name="address"
+                    type="text"
+                    component={TextAreaField}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                />
             </div>
 
             <div>
                 <h4>Town</h4>
                 <Field name="town" type="text" component={TextField} onChange={handleChange} onBlur={handleBlur} />
+            </div>
+
+            <div>
+                <h4>Phone</h4>
+                <Field
+                    name="phone"
+                    type="number"
+                    autoComplete="off"
+                    component={TextField}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                />
             </div>
 
             <div>
@@ -63,6 +98,36 @@ const InnerForm = props => {
                 />
             </div>
 
+            <div>
+                <h4>Category</h4>
+                <Field
+                    name="category"
+                    options={[
+                        { label: 'Primary', value: 1 },
+                        { label: 'Secondary', value: 2 },
+                    ]}
+                    component={SelectField}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                />
+            </div>
+
+            <div>
+                <h4>Severity</h4>
+                <Field
+                    name="severity"
+                    options={[
+                        { label: 'High Risk', value: 1 },
+                        { label: 'Low Risk', value: 0 },
+                    ]}
+                    component={SelectField}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                />
+            </div>
+
+            {/* // ToDo: start date / end date // */}
+
             <button type="button" className="outline" onClick={handleReset} disabled={!dirty || isSubmitting}>
                 Reset
             </button>
@@ -75,17 +140,20 @@ const InnerForm = props => {
 };
 
 const ContactsForm = withFormik({
-    mapPropsToValues: ({ defaultValues: { name, age, district, town, patient } }) => {
+    mapPropsToValues: ({
+        defaultValues: { name, age, gender, address, town, phone, location, patient, category, severity },
+    }) => {
         return {
             name,
+            gender,
             age,
-            district,
+            address,
             town,
+            phone,
+            location,
             patient,
-            location: {
-                value: '',
-                coordinates: null,
-            },
+            category,
+            severity,
         };
     },
 
@@ -96,40 +164,58 @@ const ContactsForm = withFormik({
         if (!values.name) {
             errors.name = 'Required';
         }
+        if (!values.gender) {
+            errors.gender = 'Required';
+        }
         if (values.age) {
             if (!isValidAge(values.age)) {
                 errors.age = 'Enter a valid age';
             }
         }
-        if (!values.district) {
-            errors.district = 'Required';
+        if (!values.address) {
+            errors.address = 'Required';
         }
         if (!values.town) {
             errors.town = 'Required';
         }
-        if (!values.patient) {
-            errors.patient = 'Required';
+        if (!values.phone) {
+            errors.phone = 'Required';
         }
         if (!values.location.value) {
             errors.location = 'Location Required';
         }
+        if (!values.patient) {
+            errors.patient = 'Required';
+        }
+        if (!values.category) {
+            errors.category = 'Required';
+        }
+        if (!values.severity) {
+            errors.severity = 'Required';
+        }
+
         // ToDo: add validator for `coordinates`
 
         return errors;
     },
 
-    handleSubmit: async ({ name, age, district, town, patient }, { setSubmitting, handleReset }) => {
+    handleSubmit: async (
+        { name, gender, age, address, town, phone, location, patient, category, severity },
+        { setSubmitting, handleReset }
+    ) => {
         const apiBody = {
             name,
+            gender,
             age,
-            district,
+            address,
             town,
+            phone,
+            location,
             patientId: patient,
+            category,
+            severity,
             startDate: '2012-12-31T23:55:13Z',
             endDate: '2012-12-31T23:55:13Z',
-            modeOfContact: 1,
-            typeOfContact: 'Community',
-            severity: 0,
         };
 
         try {

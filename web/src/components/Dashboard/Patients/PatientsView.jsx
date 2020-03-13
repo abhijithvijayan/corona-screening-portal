@@ -15,10 +15,6 @@ const StyledWrapper = styled.div`
     form {
         width: 100%;
         padding-top: 5vh;
-
-        div {
-            margin-bottom: 15px;
-        }
     }
 `;
 
