@@ -45,11 +45,11 @@ export const SelectField = ({ options, label, field, form: { touched, errors, se
 };
 
 const StyledInput = styled.input`
-    height: 35px;
+    height: 28px;
     width: 100%;
     margin: 0px;
     border-radius: 5px;
-    padding: 0px 10px !important;
+    padding: 0 !important;
     background-color: #ebebeb;
 `;
 

@@ -1,14 +1,34 @@
 import React from 'react';
+import styled from 'styled-components';
 
 import PatientsForm from './PatientForm';
 
+const StyledWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    h2 {
+        text-align: center;
+    }
+
+    form {
+        width: 100%;
+        padding-top: 5vh;
+
+        div {
+            margin-bottom: 15px;
+        }
+    }
+`;
+
 const PatientsView = () => {
     return (
-        <>
-            <div>Patients View Here you can add a patient using a button and view all the patients down below</div>
+        <StyledWrapper>
+            <h2>CORONA Patients</h2>
 
             <PatientsForm />
-        </>
+        </StyledWrapper>
     );
 };
 

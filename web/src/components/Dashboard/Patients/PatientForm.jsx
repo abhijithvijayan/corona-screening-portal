@@ -32,6 +32,7 @@ const InnerForm = props => {
             </div>
 
             <div>
+                <h4>Location</h4>
                 <Field name="location" component={LocationAutoComplete} value={values.location} />
             </div>
 

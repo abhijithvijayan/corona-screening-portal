@@ -8,11 +8,15 @@ import api from '../../../api';
 const StyledWrapper = styled.div`
     display: flex;
     justify-content: center;
-    flex-direction: row;
+    flex-direction: column;
+
+    h2 {
+        text-align: center;
+    }
 
     form {
         width: 100%;
-        padding: 10vh;
+        padding-top: 5vh;
     }
 `;
 
@@ -74,6 +78,8 @@ const ContactsView = () => {
     return (
         <>
             <StyledWrapper>
+                <h2>CORONA Contacts</h2>
+
                 {!loading && <ContactsForm defaultValues={defaultValues} patientsList={patientsList} />}
             </StyledWrapper>
         </>

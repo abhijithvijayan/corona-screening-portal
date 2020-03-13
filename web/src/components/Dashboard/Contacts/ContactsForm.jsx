@@ -1,10 +1,11 @@
 import React from 'react';
 import { withFormik, Field, Form } from 'formik';
 
+import api from '../../../api';
 import { TextField, SelectField } from '../../Input';
 import { isValidAge } from '../../../util/validators';
 import * as endpoints from '../../../api/constants';
-import api from '../../../api';
+import LocationAutoComplete from '../LocationAutoComplete';
 
 // ToDo: add auto search location field
 
@@ -47,6 +48,11 @@ const InnerForm = props => {
             </div>
 
             <div>
+                <h4>Location</h4>
+                <Field name="location" component={LocationAutoComplete} value={values.location} />
+            </div>
+
+            <div>
                 <h4>Patient in contact with</h4>
                 <Field
                     name="patient"
@@ -76,6 +82,10 @@ const ContactsForm = withFormik({
             district,
             town,
             patient,
+            location: {
+                value: '',
+                coordinates: null,
+            },
         };
     },
 
@@ -100,6 +110,10 @@ const ContactsForm = withFormik({
         if (!values.patient) {
             errors.patient = 'Required';
         }
+        if (!values.location.value) {
+            errors.location = 'Location Required';
+        }
+        // ToDo: add validator for `coordinates`
 
         return errors;
     },
