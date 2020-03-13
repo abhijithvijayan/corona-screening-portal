@@ -23,8 +23,8 @@ export const SelectField = ({ options, label, field, form: { touched, errors, se
             <label htmlFor={field.name}>{label}</label>
             <div style={{ padding: '0px' }}>
                 <StyledSelect
-                    id="color"
                     options={options}
+                    {...props}
                     value={
                         options
                             ? options.find(option => {
@@ -32,10 +32,9 @@ export const SelectField = ({ options, label, field, form: { touched, errors, se
                               })
                             : ''
                     }
-                    onChange={(option: Option) => {
-                        return setFieldValue(field.name, option.value);
+                    onChange={option => {
+                        return setFieldValue(field.name, option);
                     }}
-                    {...props}
                 />
             </div>
 
