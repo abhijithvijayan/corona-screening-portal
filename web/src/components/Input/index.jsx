@@ -1,7 +1,8 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import styled from 'styled-components';
-import Select, { Option, ReactSelectProps } from 'react-select';
+import Select, { Option } from 'react-select';
 
 const StyledSelect = styled(Select)`
     height: 35px;
@@ -34,6 +35,7 @@ export const SelectField = ({ options, label, field, form: { touched, errors, se
                     onChange={(option: Option) => {
                         return setFieldValue(field.name, option.value);
                     }}
+                    {...props}
                 />
             </div>
 

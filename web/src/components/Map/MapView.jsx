@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import GoogleMapReact from 'google-map-react';
 
 import MapMarker from './MapMarkerWithWindow';
@@ -51,7 +51,7 @@ const getMapOptions = maps => {
 const MapView = ({ personsList }) => {
     const markers = personsList.map(({ id, name, age, district, town }, index) => {
         return {
-            id,
+            id, // ToDo: Patient & Contact should not have same id
             name,
             level: 3, // ToDo:
             latlng: [9.2095432 + index * 0.1, 76.75673], // ToDo:

@@ -1,13 +1,15 @@
 import React from 'react';
 import { withFormik, Field, Form } from 'formik';
 
-import { TextField } from '../../Input';
-import { isValidAge } from '../../../util/validators';
-import * as endpoints from '../../../api/constants';
 import api from '../../../api';
+import { TextField } from '../../Input';
+import * as endpoints from '../../../api/constants';
+import { isValidAge } from '../../../util/validators';
+import LocationAutoComplete from '../LocationAutoComplete';
 
 const InnerForm = props => {
     const { values, dirty, handleChange, handleBlur, handleSubmit, handleReset, isSubmitting } = props;
+
     return (
         <Form onSubmit={handleSubmit}>
             <div>
@@ -29,6 +31,10 @@ const InnerForm = props => {
                 <Field name="town" type="text" component={TextField} onChange={handleChange} onBlur={handleBlur} />
             </div>
 
+            <div>
+                <Field name="location" component={LocationAutoComplete} value={values.location} />
+            </div>
+
             <button type="button" className="outline" onClick={handleReset} disabled={!dirty || isSubmitting}>
                 Reset
             </button>
@@ -47,6 +53,10 @@ const PatientForm = withFormik({
             age: '',
             district: '',
             town: '',
+            location: {
+                value: '',
+                coordinates: null,
+            },
         };
     },
 
@@ -68,16 +78,21 @@ const PatientForm = withFormik({
         if (!values.town) {
             errors.town = 'Required';
         }
+        if (!values.location.value) {
+            errors.location = 'Location Required';
+        }
+        // ToDo: add validator for `coordinates`
 
         return errors;
     },
 
-    handleSubmit: async ({ name, age, district, town }, { setSubmitting }) => {
+    handleSubmit: async ({ name, age, district, town, location }, { setSubmitting }) => {
         const apiBody = {
             name,
             age,
             district,
             town,
+            location,
         };
 
         try {
