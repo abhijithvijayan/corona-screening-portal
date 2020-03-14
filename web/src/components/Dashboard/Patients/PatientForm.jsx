@@ -17,6 +17,7 @@ const InnerForm = props => {
                 <Field
                     name="name"
                     type="text"
+                    spellCheck="false"
                     component={TextField}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -53,10 +54,10 @@ const InnerForm = props => {
 
             <div>
                 <h4>Address</h4>
-                {/* change to textbox */}
                 <Field
                     name="address"
                     type="text"
+                    spellCheck="false"
                     component={TextAreaField}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -65,7 +66,14 @@ const InnerForm = props => {
 
             <div>
                 <h4>Town</h4>
-                <Field name="town" type="text" component={TextField} onChange={handleChange} onBlur={handleBlur} />
+                <Field
+                    name="town"
+                    type="text"
+                    spellCheck="false"
+                    component={TextField}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                />
             </div>
 
             <div>

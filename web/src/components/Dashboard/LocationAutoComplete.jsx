@@ -53,6 +53,7 @@ const LocationAutoComplete = props => {
                         return (
                             <div>
                                 <TextField
+                                    spellCheck="false"
                                     {...otherFieldProps}
                                     {...props}
                                     {...getInputProps({
