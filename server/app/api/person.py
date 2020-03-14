@@ -3,7 +3,7 @@ from flask import request, jsonify
 from .. import db
 from app.api import bp
 from .errors import badrequest
-from ..models import Patient, Contact, Interaction
+from ..models import Patient, Contact
 
 
 @bp.route('/api/v1/savePatient', methods=['POST'])
@@ -29,6 +29,10 @@ def savePatient():
 def saveContact():
     data = request.get_json()
     """ToDo: add validators"""
+    patient_id = data["patientId"]
+    patient = Patient.query.filter_by(id=patient_id).first()
+    if not patient:
+        return badrequest('Patient not found')
     contact = Contact()
     contact.name = data["name"]
     contact.gender = data["gender"]
@@ -38,22 +42,16 @@ def saveContact():
     contact.phone = data["phone"]
     contact.location = data["location"]["value"]
     contact.coordinates = data["location"]["coordinates"]
-    patient_id = data["patientId"]
-    patient = Patient.query.filter_by(id=patient_id).first()
-    if not patient:
-        return badrequest('Patient not found')
-    interaction = Interaction()
+    contact.contact_id = contact.id
+    contact.start_date = data["startDate"]
+    contact.end_date = data["endDate"]
+    contact.category_of_contact = data["categoryOfContact"]
+    contact.severity = data["severity"]
     """Create contact"""
     db.session.add(contact)
     db.session.commit()
-    interaction.patient_id = patient.id
-    interaction.contact_id = contact.id
-    interaction.start_date = data["startDate"]
-    interaction.end_date = data["endDate"]
-    interaction.category_of_contact = data["categoryOfContact"]
-    interaction.severity = data["severity"]
-    """Create Interaction"""
-    db.session.add(interaction)
+    """Create association"""
+    patient.contacts.append(contact)
     db.session.commit()
 
     return jsonify(contact.to_json()), 201

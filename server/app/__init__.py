@@ -38,7 +38,6 @@ def register_shellcontext(flask_app):
             'db': db,
             'Patient': models.Patient,
             'Contact': models.Contact,
-            'Interaction': models.Interaction
         }
 
     flask_app.shell_context_processor(make_shell_context)

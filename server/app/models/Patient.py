@@ -5,8 +5,6 @@ from sqlalchemy.dialects.postgresql import UUID, JSON
 
 from app import db
 
-"""This class is a Child Class"""
-
 
 class Patient(db.Model):
     __tablename__ = 'corona__patient'
@@ -25,8 +23,6 @@ class Patient(db.Model):
     phone = db.Column(db.Unicode(20), nullable=False)
     location = db.Column(db.String(64), nullable=False)
     coordinates = db.Column(JSON, nullable=False)
-    # Relationship -> Interaction
-    interactions = relationship('Interaction', backref='patient__interaction')
     # Meta data
     created_at = db.Column(db.DateTime, index=True, server_default=func.now())
     updated_at = db.Column(db.DateTime, index=True,
