@@ -1,7 +1,7 @@
 from sqlalchemy import text
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import UUID, JSON
 
 from app import db
 
@@ -16,10 +16,14 @@ class Contact(db.Model):
                      server_default=text("uuid_generate_v4()"))
     # First integer PK column with autoincrement
     id = db.Column(db.Integer, index=True, primary_key=True)
-    name = db.Column(db.String(80), index=True, nullable=False)
+    name = db.Column(db.String(64), index=True, nullable=False)
+    gender = db.Column(db.String(10), index=True, nullable=False)
     age = db.Column(db.Integer, nullable=False)
-    district = db.Column(db.String(25), index=True, nullable=False)
+    address = db.Column(db.String(128), nullable=False)
     town = db.Column(db.String(40), nullable=False)
+    phone = db.Column(db.Unicode(20), nullable=False)
+    location = db.Column(db.String(64), nullable=False)
+    coordinates = db.Column(JSON, nullable=False)
     # Relationship -> Interaction
     interactions = relationship(
         'Interaction', backref='contact__interaction')
@@ -32,7 +36,8 @@ class Contact(db.Model):
         json_contact = {
             'name': self.name,
             'id': self.id,
-            'created_at': self.created_at
+            'created_at': self.created_at,
+            'updated_at': self.updated_at
         }
 
         return json_contact
@@ -41,9 +46,15 @@ class Contact(db.Model):
         json_contact = {
             'id': self.id,
             'name': self.name,
+            'gender': self.name,
             'age': self.age,
-            'district': self.district,
+            'address': self.address,
             'town': self.town,
+            'phone': self.phone,
+            'location': {
+                'value': self.location,
+                'coordinates': self.coordinates
+            },
             'created_at': self.created_at,
             'updated_at': self.updated_at
         }

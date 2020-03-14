@@ -21,10 +21,8 @@ class Interaction(db.Model):
         'corona__patient__contact.id'))
     start_date = db.Column(db.DateTime, nullable=False)
     end_date = db.Column(db.DateTime, nullable=False)
-    # 1, 2, 3, 4, 5,....
-    mode_of_contact = db.Column(db.Integer, nullable=False)
-    # Community/Family/Hospital
-    type_of_contact = db.Column(db.String(20), nullable=False)
+    # 1-> primary, 2-> secondary
+    category_of_contact = db.Column(db.Integer, nullable=False)
     # low -> 0, high -> 1
     severity = db.Column(db.Integer, nullable=False)
     # Meta data

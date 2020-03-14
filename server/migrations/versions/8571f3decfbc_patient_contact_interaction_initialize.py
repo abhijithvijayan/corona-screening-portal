@@ -1,8 +1,8 @@
 """patient/contact/interaction initialize
 
-Revision ID: ce9772682a22
+Revision ID: 8571f3decfbc
 Revises: 
-Create Date: 2020-03-12 10:24:40.048831
+Create Date: 2020-03-14 20:14:16.299052
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = 'ce9772682a22'
+revision = '8571f3decfbc'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,34 +21,42 @@ def upgrade():
     op.create_table('corona__patient',
     sa.Column('uuid', postgresql.UUID(as_uuid=True), server_default=sa.text('uuid_generate_v4()'), nullable=True),
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(length=80), nullable=False),
+    sa.Column('name', sa.String(length=64), nullable=False),
+    sa.Column('gender', sa.String(length=10), nullable=False),
     sa.Column('age', sa.Integer(), nullable=False),
-    sa.Column('district', sa.String(length=25), nullable=False),
+    sa.Column('address', sa.String(length=128), nullable=False),
     sa.Column('town', sa.String(length=40), nullable=False),
+    sa.Column('phone', sa.Unicode(length=20), nullable=False),
+    sa.Column('location', sa.String(length=64), nullable=False),
+    sa.Column('coordinates', postgresql.JSON(astext_type=sa.Text()), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('uuid')
     )
     op.create_index(op.f('ix_corona__patient_created_at'), 'corona__patient', ['created_at'], unique=False)
-    op.create_index(op.f('ix_corona__patient_district'), 'corona__patient', ['district'], unique=False)
+    op.create_index(op.f('ix_corona__patient_gender'), 'corona__patient', ['gender'], unique=False)
     op.create_index(op.f('ix_corona__patient_id'), 'corona__patient', ['id'], unique=False)
     op.create_index(op.f('ix_corona__patient_name'), 'corona__patient', ['name'], unique=False)
     op.create_index(op.f('ix_corona__patient_updated_at'), 'corona__patient', ['updated_at'], unique=False)
     op.create_table('corona__patient__contact',
     sa.Column('uuid', postgresql.UUID(as_uuid=True), server_default=sa.text('uuid_generate_v4()'), nullable=True),
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(length=80), nullable=False),
+    sa.Column('name', sa.String(length=64), nullable=False),
+    sa.Column('gender', sa.String(length=10), nullable=False),
     sa.Column('age', sa.Integer(), nullable=False),
-    sa.Column('district', sa.String(length=25), nullable=False),
+    sa.Column('address', sa.String(length=128), nullable=False),
     sa.Column('town', sa.String(length=40), nullable=False),
+    sa.Column('phone', sa.Unicode(length=20), nullable=False),
+    sa.Column('location', sa.String(length=64), nullable=False),
+    sa.Column('coordinates', postgresql.JSON(astext_type=sa.Text()), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('uuid')
     )
     op.create_index(op.f('ix_corona__patient__contact_created_at'), 'corona__patient__contact', ['created_at'], unique=False)
-    op.create_index(op.f('ix_corona__patient__contact_district'), 'corona__patient__contact', ['district'], unique=False)
+    op.create_index(op.f('ix_corona__patient__contact_gender'), 'corona__patient__contact', ['gender'], unique=False)
     op.create_index(op.f('ix_corona__patient__contact_id'), 'corona__patient__contact', ['id'], unique=False)
     op.create_index(op.f('ix_corona__patient__contact_name'), 'corona__patient__contact', ['name'], unique=False)
     op.create_index(op.f('ix_corona__patient__contact_updated_at'), 'corona__patient__contact', ['updated_at'], unique=False)
@@ -59,8 +67,7 @@ def upgrade():
     sa.Column('contact_id', sa.Integer(), nullable=True),
     sa.Column('start_date', sa.DateTime(), nullable=False),
     sa.Column('end_date', sa.DateTime(), nullable=False),
-    sa.Column('mode_of_contact', sa.Integer(), nullable=False),
-    sa.Column('type_of_contact', sa.String(length=20), nullable=False),
+    sa.Column('category_of_contact', sa.Integer(), nullable=False),
     sa.Column('severity', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
@@ -82,13 +89,13 @@ def downgrade():
     op.drop_index(op.f('ix_corona__patient__contact_updated_at'), table_name='corona__patient__contact')
     op.drop_index(op.f('ix_corona__patient__contact_name'), table_name='corona__patient__contact')
     op.drop_index(op.f('ix_corona__patient__contact_id'), table_name='corona__patient__contact')
-    op.drop_index(op.f('ix_corona__patient__contact_district'), table_name='corona__patient__contact')
+    op.drop_index(op.f('ix_corona__patient__contact_gender'), table_name='corona__patient__contact')
     op.drop_index(op.f('ix_corona__patient__contact_created_at'), table_name='corona__patient__contact')
     op.drop_table('corona__patient__contact')
     op.drop_index(op.f('ix_corona__patient_updated_at'), table_name='corona__patient')
     op.drop_index(op.f('ix_corona__patient_name'), table_name='corona__patient')
     op.drop_index(op.f('ix_corona__patient_id'), table_name='corona__patient')
-    op.drop_index(op.f('ix_corona__patient_district'), table_name='corona__patient')
+    op.drop_index(op.f('ix_corona__patient_gender'), table_name='corona__patient')
     op.drop_index(op.f('ix_corona__patient_created_at'), table_name='corona__patient')
     op.drop_table('corona__patient')
     # ### end Alembic commands ###

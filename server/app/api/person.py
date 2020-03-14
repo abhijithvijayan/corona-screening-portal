@@ -12,9 +12,13 @@ def savePatient():
     """ToDo: add validators"""
     patient = Patient()
     patient.name = data["name"]
+    patient.gender = data["gender"]
     patient.age = data["age"]
-    patient.district = data["district"]
+    patient.address = data["address"]
     patient.town = data["town"]
+    patient.phone = data["phone"]
+    patient.location = data["location"]["value"]
+    patient.coordinates = data["location"]["coordinates"]
     db.session.add(patient)
     db.session.commit()
 
@@ -27,11 +31,14 @@ def saveContact():
     """ToDo: add validators"""
     contact = Contact()
     contact.name = data["name"]
+    contact.gender = data["gender"]
     contact.age = data["age"]
+    contact.address = data["address"]
     contact.town = data["town"]
-    contact.district = data["district"]
+    contact.phone = data["phone"]
+    contact.location = data["location"]["value"]
+    contact.coordinates = data["location"]["coordinates"]
     patient_id = data["patientId"]
-    """Throw Exception if not found"""
     patient = Patient.query.filter_by(id=patient_id).first()
     if not patient:
         return badrequest('Patient not found')
@@ -43,8 +50,7 @@ def saveContact():
     interaction.contact_id = contact.id
     interaction.start_date = data["startDate"]
     interaction.end_date = data["endDate"]
-    interaction.mode_of_contact = data["modeOfContact"]
-    interaction.type_of_contact = data["typeOfContact"]
+    interaction.category_of_contact = data["categoryOfContact"]
     interaction.severity = data["severity"]
     """Create Interaction"""
     db.session.add(interaction)
