@@ -173,7 +173,7 @@ const PatientForm = withFormik({
 
             console.log('patient saved');
 
-            // reset form
+            // ToDo: fix location field not resetting issue
             resetForm();
         } catch (err) {
             if (err.response) {

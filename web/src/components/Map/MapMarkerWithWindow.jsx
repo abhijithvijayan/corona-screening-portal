@@ -113,17 +113,27 @@ const CustomStyledMarker = styled.div`
                 font-size: 14px;
             }
 
+            .contact {
+                display: flex;
+                align-items: center;
+
+                .body {
+                    padding-top: 9px;
+                    margin-left: 7px;
+                }
+            }
+
+            .svg__icon {
+                width: 11px;
+                height: 11px;
+            }
+
             .coordinates {
                 margin-top: 10px;
                 border-top: 1px solid black;
                 padding-top: 9px;
                 display: flex;
                 align-items: center;
-
-                &__icon {
-                    width: 11px;
-                    height: 11px;
-                }
 
                 &__body {
                     margin-left: 7px;
@@ -178,7 +188,8 @@ const MapMarker = ({
     age,
     gender,
     address,
-    contact,
+    town,
+    phone,
     color,
     activeMarkerId,
     onMarkerClick,
@@ -212,10 +223,15 @@ const MapMarker = ({
                             <div>
                                 {age} {gender}
                             </div>
-                            <div>{address}</div>
-                            <div>{contact}</div>
+                            <div>
+                                {address} {town}
+                            </div>
+                            <div className="contact">
+                                <Icon name="mobile" className="svg__icon" />
+                                <div className="body">{phone}</div>
+                            </div>
                             <div className="coordinates">
-                                <Icon name="map_marker" className="coordinates__icon" />
+                                <Icon name="map_marker" className="svg__icon" />
                                 <span className="coordinates__body">{`${lat}, ${lng}`}</span>
                             </div>
                         </div>
