@@ -2,10 +2,11 @@ import React from 'react';
 import { withFormik, Field, Form } from 'formik';
 
 import api from '../../../api';
-import { TextField, SelectField, TextAreaField } from '../../Input';
-import { isValidAge } from '../../../util/validators';
+import DatePicker from '../DatePicker';
 import * as endpoints from '../../../api/constants';
+import { isValidAge } from '../../../util/validators';
 import LocationAutoComplete from '../LocationAutoComplete';
+import { TextField, SelectField, TextAreaField } from '../../Input';
 
 // ToDo: add auto search location field
 
@@ -55,10 +56,10 @@ const InnerForm = props => {
 
             <div>
                 <h4>Address</h4>
-                {/* change to textbox */}
                 <Field
                     name="address"
                     type="text"
+                    spellCheck="false"
                     component={TextAreaField}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -67,7 +68,14 @@ const InnerForm = props => {
 
             <div>
                 <h4>Town</h4>
-                <Field name="town" type="text" component={TextField} onChange={handleChange} onBlur={handleBlur} />
+                <Field
+                    name="town"
+                    type="text"
+                    spellCheck="false"
+                    component={TextField}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                />
             </div>
 
             <div>
@@ -99,6 +107,16 @@ const InnerForm = props => {
             </div>
 
             <div>
+                <h4>Date of First Contact</h4>
+                <Field name="startDate" maxDate={values.endDate} component={DatePicker} />
+            </div>
+
+            <div>
+                <h4>Date of Last Contact</h4>
+                <Field name="endDate" minDate={values.startDate} maxDate={new Date()} component={DatePicker} />
+            </div>
+
+            <div>
                 <h4>Category</h4>
                 <Field
                     name="category"
@@ -126,8 +144,6 @@ const InnerForm = props => {
                 />
             </div>
 
-            {/* // ToDo: start date / end date // */}
-
             <button type="button" className="outline" onClick={handleReset} disabled={!dirty || isSubmitting}>
                 Reset
             </button>
@@ -141,7 +157,20 @@ const InnerForm = props => {
 
 const ContactsForm = withFormik({
     mapPropsToValues: ({
-        defaultValues: { name, age, gender, address, town, phone, location, patient, category, severity },
+        defaultValues: {
+            name,
+            age,
+            gender,
+            address,
+            town,
+            phone,
+            location,
+            patient,
+            startDate,
+            endDate,
+            category,
+            severity,
+        },
     }) => {
         return {
             name,
@@ -152,6 +181,8 @@ const ContactsForm = withFormik({
             phone,
             location,
             patient,
+            startDate,
+            endDate,
             category,
             severity,
         };
@@ -186,6 +217,14 @@ const ContactsForm = withFormik({
         }
         if (!values.patient) {
             errors.patient = 'Required';
+        }
+        if (!values.startDate) {
+            errors.startDate = 'Required';
+            // ToDo: add more validation to date
+        }
+        if (!values.endDate) {
+            errors.endDate = 'Required';
+            // ToDo: add more validation to date
         }
         if (!values.category) {
             errors.category = 'Required';

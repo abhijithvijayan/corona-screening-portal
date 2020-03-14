@@ -35,6 +35,8 @@ const ContactsView = () => {
             coordinates: null,
         },
         patient: '',
+        startDate: '',
+        endDate: '',
         category: '',
         severity: '',
     });
