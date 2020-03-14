@@ -153,10 +153,10 @@ const PatientForm = withFormik({
         return errors;
     },
 
-    handleSubmit: async ({ name, gender, age, address, town, phone, location }, { setSubmitting }) => {
+    handleSubmit: async ({ name, gender, age, address, town, phone, location }, { setSubmitting, resetForm }) => {
         const apiBody = {
             name,
-            gender,
+            gender: gender.value,
             age,
             address,
             town,
@@ -171,7 +171,10 @@ const PatientForm = withFormik({
                 data: apiBody,
             });
 
-            alert(data);
+            console.log('patient saved');
+
+            // reset form
+            resetForm();
         } catch (err) {
             if (err.response) {
                 if (err.response.status === 404) {

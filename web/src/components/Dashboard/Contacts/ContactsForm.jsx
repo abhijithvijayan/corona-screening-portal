@@ -240,21 +240,21 @@ const ContactsForm = withFormik({
 
     handleSubmit: async (
         { name, gender, age, address, town, phone, location, patient, startDate, endDate, category, severity },
-        { setSubmitting, handleReset }
+        { setSubmitting, resetForm }
     ) => {
         const apiBody = {
             name,
-            gender,
+            gender: gender.value,
             age,
             address,
             town,
             phone,
             location,
-            patientId: patient,
+            patientId: patient.value,
             startDate,
             endDate,
-            category,
-            severity,
+            categoryOfContact: category.value,
+            severity: severity.value,
         };
 
         try {
@@ -267,7 +267,7 @@ const ContactsForm = withFormik({
             console.log('contact saved');
 
             // reset form
-            handleReset();
+            resetForm();
         } catch (err) {
             if (err.response) {
                 if (err.response.status === 404) {
