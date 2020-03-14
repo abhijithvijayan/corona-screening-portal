@@ -239,7 +239,7 @@ const ContactsForm = withFormik({
     },
 
     handleSubmit: async (
-        { name, gender, age, address, town, phone, location, patient, category, severity },
+        { name, gender, age, address, town, phone, location, patient, startDate, endDate, category, severity },
         { setSubmitting, handleReset }
     ) => {
         const apiBody = {
@@ -251,10 +251,10 @@ const ContactsForm = withFormik({
             phone,
             location,
             patientId: patient,
+            startDate,
+            endDate,
             category,
             severity,
-            startDate: '2012-12-31T23:55:13Z',
-            endDate: '2012-12-31T23:55:13Z',
         };
 
         try {

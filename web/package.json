@@ -1,5 +1,5 @@
 {
-  "name": "hello-corona-web",
+  "name": "corona-screening-portal",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:4000",

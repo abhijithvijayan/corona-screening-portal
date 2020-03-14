@@ -43,7 +43,7 @@ const Sidebar = () => {
         <>
             <StyledSidebar>
                 <div className="child__wrapper">
-                    <h4 className="main__head">Hello Corona</h4>
+                    <h4 className="main__head">corona-screening-portal</h4>
                     <p>Home</p>
                     <ul>
                         <li>
