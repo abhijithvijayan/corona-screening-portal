@@ -34,8 +34,8 @@ class Contact(db.Model):
 
     def to_json(self):
         json_contact = {
+            'id': 'Pta / cov / c{}'.format(self.id),
             'name': self.name,
-            'id': self.id,
             'created_at': self.created_at,
             'updated_at': self.updated_at
         }
@@ -44,9 +44,9 @@ class Contact(db.Model):
 
     def complete_json(self):
         json_contact = {
-            'id': self.id,
+            'id': 'Pta / cov / c{}'.format(self.id),
             'name': self.name,
-            'gender': self.name,
+            'gender': self.gender,
             'age': self.age,
             'address': self.address,
             'town': self.town,
@@ -62,4 +62,4 @@ class Contact(db.Model):
         return json_contact
 
     def __repr__(self):
-        return '<Contact {}>'.format(self.name)
+        return '<Contact {}>'.format(self.id)

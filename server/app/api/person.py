@@ -60,14 +60,14 @@ def saveContact():
 
 
 @bp.route('/api/v1/getPersons', methods=["POST"])
-def getPerson():
+def getPersons():
     data = request.get_json()
     tableModel = {"patient": Patient, "contact": Contact}
     key = data["category"]
+    # ToDo: return level -> 0/1/2 (patient/primary/secondary)
     if key == "all":
         dict_obj = {}
         for dictkey in tableModel:
-            print(dictkey)
             model = tableModel[dictkey]
             datalist = model.query.all()
             dataList = [data.complete_json() for data in datalist]
