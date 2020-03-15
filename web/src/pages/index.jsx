@@ -5,7 +5,7 @@ import Dashboard from '../components/Dashboard';
 import Layout from '../components/Layout';
 import Sidebar from '../components/Dashboard/Sidebar';
 import PatientsView from '../components/Dashboard/Patients/PatientsView';
-import ContactsView from '../components/Dashboard/Contacts/ContactsView';
+import SuspectsView from '../components/Dashboard/Suspects/SuspectsView';
 import Map from '../components/Map';
 
 const routes = [
@@ -22,8 +22,8 @@ const routes = [
         component: PatientsView,
     },
     {
-        path: '/contacts',
-        component: ContactsView,
+        path: '/suspects',
+        component: SuspectsView,
     },
     {
         path: '/view/map',

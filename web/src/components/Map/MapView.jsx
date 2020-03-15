@@ -50,8 +50,8 @@ const getMapOptions = maps => {
 };
 
 const MapView = ({ personsList }) => {
-    const markers = personsList.map(({ id, name, gender, age, address, town, phone, location }) => {
-        return {
+    const markers = personsList.map(
+        ({
             id,
             name,
             gender,
@@ -59,10 +59,26 @@ const MapView = ({ personsList }) => {
             address,
             town,
             phone,
-            level: 2, // ToDo:
-            latLng: Object.values(location.coordinates),
-        };
-    });
+            location: { coordinates },
+            type_of_person: typeOfPerson,
+            category_of_suspect: categoryOfSuspect = null,
+        }) => {
+            //  0 => patient, category_of_suspect -> 1 => primary, 2 => secondary
+            const level = typeOfPerson === 'patient' ? 0 : categoryOfSuspect;
+
+            return {
+                id,
+                name,
+                gender,
+                age,
+                address,
+                town,
+                phone,
+                level,
+                latLng: Object.values(coordinates),
+            };
+        }
+    );
 
     return (
         <GoogleMapReact

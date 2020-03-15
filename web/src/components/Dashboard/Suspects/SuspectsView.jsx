@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import ContactsForm from './ContactsForm';
+import SuspectForm from './SuspectForm';
 import * as endpoints from '../../../api/constants';
 import api from '../../../api';
 
@@ -45,7 +45,7 @@ const ContactsView = () => {
         async function getPatients() {
             try {
                 const {
-                    data: { data },
+                    data: { persons },
                 } = await api({
                     method: 'POST',
                     url: endpoints.GET_PERSONS_ENDPOINT,
@@ -62,10 +62,10 @@ const ContactsView = () => {
                 //     patient: defaultValues.patient,
                 // };
 
-                const patientSelectFormOptions = data.list.map(item => {
+                const patientSelectFormOptions = persons.map(item => {
                     return {
                         label: item.name,
-                        value: item.id,
+                        value: item.id.replace(/Pta \/ cov \/ /g, ''),
                     };
                 });
 
@@ -88,9 +88,9 @@ const ContactsView = () => {
     return (
         <>
             <StyledWrapper>
-                <h2>CORONA Contacts</h2>
+                <h2>CORONA Suspects</h2>
 
-                {!loading && <ContactsForm defaultValues={defaultValues} patientsList={patientsList} />}
+                {!loading && <SuspectForm defaultValues={defaultValues} patientsList={patientsList} />}
             </StyledWrapper>
         </>
     );

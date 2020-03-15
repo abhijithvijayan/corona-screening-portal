@@ -25,7 +25,7 @@ const MapWrapper = () => {
         async function fetchPersonsList() {
             try {
                 const {
-                    data: { data },
+                    data: { persons },
                 } = await api({
                     method: 'POST',
                     url: endpoints.GET_PERSONS_ENDPOINT,
@@ -34,13 +34,8 @@ const MapWrapper = () => {
                     },
                 });
 
-                const {
-                    list: { contact, patient },
-                } = data;
-                const personFullList = [...contact, ...patient];
-
                 console.log('fetch completed');
-                setPersonsList(personFullList);
+                setPersonsList(persons);
             } catch (err) {
                 console.log('failed to fetch');
 

@@ -50,7 +50,7 @@ const Sidebar = () => {
                             <Link to="/patients">Patients</Link>
                         </li>
                         <li>
-                            <Link to="/contacts">Contacts</Link>
+                            <Link to="/suspects">Suspects</Link>
                         </li>
                     </ul>
                     <Link to="/view/map"> Map Visualisation</Link>

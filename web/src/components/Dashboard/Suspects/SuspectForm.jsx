@@ -155,7 +155,7 @@ const InnerForm = props => {
     );
 };
 
-const ContactsForm = withFormik({
+const SuspectForm = withFormik({
     mapPropsToValues: ({
         defaultValues: {
             name,
@@ -253,20 +253,20 @@ const ContactsForm = withFormik({
             patientId: patient.value,
             startDate,
             endDate,
-            categoryOfContact: category.value,
+            categoryOfSuspect: category.value,
             severity: severity.value,
         };
 
         try {
             const { data } = await api({
                 method: 'POST',
-                url: endpoints.SAVE_CONTACT_ENDPOINT,
+                url: endpoints.SAVE_SUSPECT_ENDPOINT,
                 data: apiBody,
             });
 
-            console.log('contact saved');
+            console.log('suspect saved');
 
-            // ToDo: fix location field not resetting issue
+            // ToDo: fix react-select fields not resetting issue
             resetForm();
         } catch (err) {
             if (err.response) {
@@ -281,7 +281,7 @@ const ContactsForm = withFormik({
         setSubmitting(false);
     },
 
-    displayName: 'ContactsForm',
+    displayName: 'SuspectForm',
 })(InnerForm);
 
-export default ContactsForm;
+export default SuspectForm;
