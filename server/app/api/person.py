@@ -21,7 +21,7 @@ def savePatient():
         patient.town = data["town"]
         patient.phone = data["phone"]
         patient.location = data["location"]["value"]
-        patient.coordinates = data["location"]["coordinates"],
+        patient.coordinates = data["location"]["coordinates"]
         db.session.add(patient)
         db.session.commit()
 
