@@ -1,3 +1,3 @@
 """import all models here"""
-from app.models.Patient import Patient
-from app.models.Contact import Contact
+from app.models.Person import Person
+from app.models.Association import Association

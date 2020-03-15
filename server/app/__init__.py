@@ -36,8 +36,8 @@ def register_shellcontext(flask_app):
         """Shell context objects."""
         return {
             'db': db,
-            'Patient': models.Patient,
-            'Contact': models.Contact,
+            'Person': models.Person,
+            'Association': models.Association
         }
 
     flask_app.shell_context_processor(make_shell_context)
